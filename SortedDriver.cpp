@@ -4,6 +4,13 @@
 // Construct sorted sequences and call functions that 
 //   process the sorted sequences.
 
+/*
+Easton Tuttle
+Computer Science II
+Lab06 - Sorted Sequences
+October 23, 2017
+*/
+
 
 #include "RandomUtilities.h"
 #include "ContainerPrinting.h"
@@ -60,22 +67,64 @@ getWords(size_t numWords, size_t wordLength, string alphabet)
 // pre:  number is not empty; 
 //       number is sorted from smallest to largest
 // post: The most isolated entry in number has been returned
-double
-mostIsolated(vector<double> & number)
+double mostIsolated (vector<double> & number)
 {
-	// STUB  STUB  STUB
-	return -123.456;
+	double iso = 0;
+	double nearest = 0;
+	double current;
+	double next;
+
+	if (!number.empty())
+	{
+		for (int i = 1; i < number.size(); i++)
+		{
+			current = number[i - 1];
+			next = number[i];
+
+			if (current < 0 && next > 0)
+			{
+				if (abs(next + current) > nearest)
+				{
+					nearest = next;
+				}
+			}
+			else
+			{
+				if (abs(next - current) > nearest)
+				{
+					nearest = next;
+				}
+			}
+
+			iso = next;
+		}
+	}
+
+	return iso;
 }
 
 
 // pre:  A and B are sorted.
 // post: The number of strings in A that do not occur in B
 //         has been returned.
-int
-unmatched(list<string> & A, list<string> & B)
+int unmatched(list<string> & A, list<string> & B)
 {
-	// STUB  STUB  STUB
-	return -1;
+	int counter = 0;
+
+	string testA = A.front;
+	string testB = B.front;
+
+	if (testA != testB)
+	{
+		counter++;
+	}
+
+	for (int i = 0; i <= A.size(); i++)
+	{
+		A.front._Nextnode;
+	}
+
+	return counter;
 }
 
 
