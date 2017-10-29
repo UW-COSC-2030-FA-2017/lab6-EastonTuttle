@@ -11,7 +11,7 @@ Lab06 - Sorted Sequences
 October 23, 2017
 */
 
-
+#include "stdafx.h"
 #include "RandomUtilities.h"
 #include "ContainerPrinting.h"
 #include "winTimer.h"
@@ -69,38 +69,51 @@ getWords(size_t numWords, size_t wordLength, string alphabet)
 // post: The most isolated entry in number has been returned
 double mostIsolated (vector<double> & number)
 {
-	double iso = 0;
-	double nearest = 0;
+	double previous;
 	double current;
 	double next;
+	double prevDiff = 0;
+	double nextDiff = 0;
+	double totalDiff = 0;
+	double isolated = number[0];
 
-	if (!number.empty())
+	// Special case for when the first number in the
+	// collection proves to be the most isolated number
+	// in the collection.
+	if (totalDiff < number[1] - number[0])
 	{
-		for (int i = 1; i < number.size(); i++)
+		totalDiff = nextDiff + prevDiff;
+		isolated = number[0];
+	}
+
+	// Special case for when the last number in the collection
+	// proves to be the most isolated number in the collection.
+	if (totalDiff < number[number.size() - 1] - number[number.size() - 2])
+	{
+		totalDiff = nextDiff + prevDiff;
+		isolated = number[number.size() - 1];
+	}
+
+	// General case to check each number in between the first
+	// and the last numbers in the collection to find the most
+	// isolated number.
+	for (int i = 1; i < (number.size() - 1); i++)
+	{
+		previous = number[i - 1];
+		current = number[i];
+		next = number[i + 1];
+
+		nextDiff = next - current;
+		prevDiff = current - previous;
+		
+		if (totalDiff < nextDiff + prevDiff)
 		{
-			current = number[i - 1];
-			next = number[i];
-
-			if (current < 0 && next > 0)
-			{
-				if (abs(next + current) > nearest)
-				{
-					nearest = next;
-				}
-			}
-			else
-			{
-				if (abs(next - current) > nearest)
-				{
-					nearest = next;
-				}
-			}
-
-			iso = next;
+			totalDiff = nextDiff + prevDiff;
+			isolated = number[i];
 		}
 	}
 
-	return iso;
+	return isolated;
 }
 
 
@@ -109,22 +122,31 @@ double mostIsolated (vector<double> & number)
 //         has been returned.
 int unmatched(list<string> & A, list<string> & B)
 {
-	int counter = 0;
+	int total = A.size();
+	int unequalCounter = 0;
 
-	string testA = A.front;
-	string testB = B.front;
+	list<string>::iterator iterA;
+	list<string>::iterator iterB;
 
-	if (testA != testB)
+	// Using iterators, iterate through both the A list and the B list.
+	// If the string in A equals the word in B then decrement the total,
+	// otherwise increment the unequalCounter.
+	for (iterA = A.begin(); iterA != A.end(); iterA++)
 	{
-		counter++;
+		int tempTotal = total;
+		for (iterB = B.begin(); iterB != B.end(); iterB++)
+		{
+			if (*iterA == *iterB)
+			{
+				total--;
+			}
+		}
+		if (total == tempTotal)
+		{
+			unequalCounter++;
+		}
 	}
-
-	for (int i = 0; i <= A.size(); i++)
-	{
-		A.front._Nextnode;
-	}
-
-	return counter;
+	return unequalCounter;
 }
 
 
